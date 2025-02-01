@@ -81,7 +81,7 @@ function Navbar() {
                     border: 'none',
                     cursor: 'pointer',
                   }}
-                >
+                > 
                   Logout
                 </button>
               </li>
