@@ -1,0 +1,46 @@
+
+.registration-page {
+  background: linear-gradient(
+      rgba(255, 255, 255, 0.5),
+      rgba(255, 255, 255, 0.7)
+    ),
+    url('/public/image/register.png'); /* Replace with the correct path */
+  background-size: cover;
+  background-position: center;
+  height: 900px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+}
+
+.card {
+  background-color: #f5efef;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(255, 255, 255, 0.15);
+}
+
+.card-body {
+  padding: 30px;
+}
+
+h2 {
+  font-size: 28px;
+  color: #2a2c2c;
+  font-weight: 700;
+}
+
+.btn-primary {
+  background-color: #2575fc;
+  border: none;
+  transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+  background-color: #6a11cb;
+}
+
+input:focus {
+  border-color: #2575fc;
+  box-shadow: 0 0 5px rgba(37, 117, 252, 0.5);
+}
