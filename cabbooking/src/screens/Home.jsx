@@ -5,7 +5,8 @@ function Home() {
   return (
     <div>
       <Navbar />
-      <h2 classNameName='header'>Welcome to Royal Cab Booking</h2>
+
+      <h2 classNameName='header'></h2>
       <SearchComponent/>
     </div>
  
@@ -20,3 +21,6 @@ function Home() {
 }
 
 export default Home
+
+
+
