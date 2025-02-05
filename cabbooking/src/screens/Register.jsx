@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import { signup } from '../services/user'
 import '../styles/register.css'
+import Navbar from '../components/Navbar'
 
 function Register() {
   //User details
@@ -59,7 +60,11 @@ function Register() {
   };
 
 return (
+  <div>
+  <Navbar/>
+      
   <div className="registration-page vh-100 d-flex align-items-center justify-content-center bg-light">
+    
     <div className="container">
       <div className="row justify-content-center">
         <div className="col-lg-8 col-md-10 col-sm-12">
@@ -220,6 +225,7 @@ return (
         </div>
       </div>
     </div>
+  </div>
   </div>
 );
 

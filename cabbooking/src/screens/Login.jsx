@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import { signin } from '../services/user'
+import Navbar from '../components/Navbar'
 
 function Login() {
   const [email, setEmail] = useState('')
@@ -44,6 +45,7 @@ function Login() {
 
   return (
     <div>
+      <Navbar/>
       <h2 className='header'>Login</h2>
 
       <div className='row'>
