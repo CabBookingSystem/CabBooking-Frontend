@@ -1,8 +1,8 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
-import { signup } from '../services/user'
-import '../styles/register.css'
+import { signup } from '../Services/user'
+import '../../styles/register.css'
 import Navbar from '../components/Navbar'
 
 function Register() {
@@ -61,8 +61,8 @@ function Register() {
 
 return (
   <div>
-  <Navbar/>
-      
+  {/* <Navbar/>
+       */}
   <div className="registration-page vh-100 d-flex align-items-center justify-content-center bg-light">
     
     <div className="container">
@@ -79,6 +79,7 @@ return (
                       First Name
                     </label>
                     <input
+                      onChange={(e) => setFirstName(e.target.value)}
                       type="text"
                       id="firstName"
                       className="form-control"
@@ -90,6 +91,7 @@ return (
                       Last Name
                     </label>
                     <input
+                      onChange={(e) => setLastName(e.target.value)}
                       type="text"
                       id="lastName"
                       className="form-control"
@@ -105,6 +107,7 @@ return (
                       Email
                     </label>
                     <input
+                      onChange={(e) => setEmail(e.target.value)}
                       type="email"
                       id="email"
                       className="form-control"
@@ -116,6 +119,7 @@ return (
                       Phone Number
                     </label>
                     <input
+                      onChange={(e) => setPhone(e.target.value)}
                       type="tel"
                       id="phone"
                       className="form-control"
@@ -131,6 +135,7 @@ return (
                       Password
                     </label>
                     <input
+                      onChange={(e) => setPassword(e.target.value)}
                       type="password"
                       id="password"
                       className="form-control"
@@ -142,6 +147,7 @@ return (
                       Confirm Password
                     </label>
                     <input
+                      onChange={(e) => setConfirmPassword(e.target.value)}
                       type="password"
                       id="confirmPassword"
                       className="form-control"
@@ -157,6 +163,7 @@ return (
                       Address Line 1
                     </label>
                     <input
+                      onChange={(e) => setAdrLine1(e.target.value)}
                       type="text"
                       id="address1"
                       className="form-control"
@@ -168,6 +175,7 @@ return (
                       Address Line 2 <span className="text-muted">(Optional)</span>
                     </label>
                     <input
+                      onChange={(e) => setAdrLine2(e.target.value)}
                       type="text"
                       id="address2"
                       className="form-control"
@@ -183,6 +191,7 @@ return (
                       City
                     </label>
                     <input
+                      onChange={(e) => setCity(e.target.value)}
                       type="text"
                       id="city"
                       className="form-control"
@@ -194,6 +203,7 @@ return (
                       State
                     </label>
                     <input
+                      onChange={(e) => setState(e.target.value)}
                       type="text"
                       id="state"
                       className="form-control"
@@ -205,6 +215,7 @@ return (
                       Pin Code
                     </label>
                     <input
+                      onChange={(e) => setPinCode(e.target.value)}
                       type="text"
                       id="pincode"
                       className="form-control"
@@ -218,6 +229,10 @@ return (
                   <button onClick={onSignup} type="submit" className="btn btn-primary px-5 py-2">
                     Signup
                   </button>
+                  {/* <button onClick={onSignup} type="submit" className="btn btn-primary px-5 py-2">
+                    Cancel
+                  </button> */}
+
                 </div>
               </form>
             </div>

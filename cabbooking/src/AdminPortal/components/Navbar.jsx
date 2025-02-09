@@ -115,6 +115,7 @@ function Navbar() {
   const navigate = useNavigate();
 
   const onLogout = () => {
+    sessionStorage.clear()
     navigate('/login');
   };
 
@@ -243,13 +244,22 @@ function Navbar() {
           <div className="collapse navbar-collapse" id="navbarNav">
             <ul className="navbar-nav mx-auto">
               <li className="nav-item">
-                <Link className="nav-link" to="/category">Categories</Link>
+                <Link className="nav-link" to="/category">ViewCustomers</Link>
               </li>
               <li className="nav-item">
                 <Link className="nav-link" to="/brand">Book Now</Link>
               </li>
               <li className="nav-item">
-                <Link className="nav-link" to="/product">About Us</Link>
+                <Link className="nav-link" to="/AboutUs">Add Car</Link>
+              </li>
+              <li className="nav-item">
+                <Link className="nav-link" to="/AboutUs">View Car</Link>
+              </li>
+              <li className="nav-item">
+                <Link className="nav-link" to="/AboutUs">View Customers</Link>
+              </li>
+              <li className="nav-item">
+                <Link className="nav-link" to="/AboutUs">About Us</Link>
               </li>
             </ul>
 
