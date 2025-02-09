@@ -29,6 +29,8 @@ export async function signin(email, password) {
     console.log(response.data)
     return response.data
   } catch (ex) {
-    return { status: 'error', error: ex }
+   
+   // return { status: 'error', error: ex }
+   return null
   }
 }

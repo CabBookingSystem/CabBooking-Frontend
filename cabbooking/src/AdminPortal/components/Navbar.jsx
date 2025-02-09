@@ -250,7 +250,7 @@ function Navbar() {
                 <Link className="nav-link" to="/brand">Book Now</Link>
               </li>
               <li className="nav-item">
-                <Link className="nav-link" to="/AboutUs">Add Car</Link>
+                <Link className="nav-link" to="/AddCar">Add Car</Link>
               </li>
               <li className="nav-item">
                 <Link className="nav-link" to="/AboutUs">View Car</Link>
