@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { createUrl } from '../utils'
+import { createUrl } from '../../utils'
 
 export async function addDriverToBackend(firstName, lastName,age, email,phoneNo,category) {
   try {

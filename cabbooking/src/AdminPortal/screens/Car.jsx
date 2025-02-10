@@ -262,9 +262,9 @@
 // export default Car;
 
 import { useEffect, useState } from 'react';
-import { getCarDetails } from '../services/car';
+import { getCarDetails } from '../Services/car';
 import { toast } from 'react-toastify';
-import { createUrl } from '../utils';
+import { createUrl } from '../../utils';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom'
 

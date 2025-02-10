@@ -1,23 +1,103 @@
-import { Link, useNavigate } from 'react-router-dom'
-import { toast } from 'react-toastify'
+// import { Link, useNavigate } from 'react-router-dom'
+ import { toast } from 'react-toastify'
+ import { BookCab } from '../Services/Booking';
+ import { getLocations } from '../Services/Locations';
+
+
+
+import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 function HomePage() {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+  
+  // State for source and destination options
+  const[locations,setLocations]=useState([]);
+  //const[userId,setUserId]=useState('');
+  const [source,setSource]=useState('');
+  const[destination,setDestination]=useState('');
+ const [time,setTime]=useState('');
+ const[date,setDate]=useState('');
+ const[category,setCategory]=useState('');
 
-  const onLogin = async () => {
-    navigate('/login')
+  const handleRedirect = () => {
+      navigate("/JourneyDetails");
+
   }
+const OnSearch = async () => {
+    if (source.length == 0) {
+      toast.warn('please enter source')
+    } else if (destination.length == 0) {
+      toast.warn('please enter time')
+      
+    }
+    else if(date.length==0)
+    {
+      toast.warn('please enter date')
+    }
+    else if(category.length==0)
+      {
+        toast.warn('please select vehical Category ')
+      }
+    else if(source==destination)
+    {
+      toast.warn('source and Destination Cannot be same ')
+    }
+ 
+     else {
+     // console.log(setUserId(sessionStorage.getItem('id')))
+     const userId = sessionStorage.getItem('id');
+     console.log(userId)
+        const result = await BookCab(userId,source, destination,time,date,category)   
+        if(result!=null ){
+          console.log("Checking result data:", result);
+          const{id}=result;
+          sessionStorage['bookid']=`${id}`;
+            navigate('/JourneyDetails')
+     
+       
+       
+    //   else {
+    //     toast.error("invalid Login")
+    //   }
+     }
+
+    }
+  }
+  const loadLocations = async () => {
+    const result = await getLocations()
+    console.log(result)
+
+    //if (result['status'] == 'success')
+    if(result!=null)
+    {
+      setLocations(result)
+      console.log(locations)
+    } else {
+      toast.error("error")
+    }
+  }
+
+
+
+  useEffect(() => {
+    //Fetch source and destination data from the backend
+
+    loadLocations()
+  },[])
+   
+
+ 
+  
 
   return (
     <div>
       {/* Hero Section */}
       <header style={styles.hero}>
-        
-        <div className="container py-5" style={{backgroundImage:"/image/car3.jpg"}}>
-          {/* <img src="/image/car3.jpg"></img> */}
+        <div className="container py-5" style={{ backgroundImage: "/image/car3.jpg" }}>
           <h1 className="text-left text-white mb-4" style={styles.heroTitle}>Cab Booking Made Easy</h1>
           <p className="text-left text-white mb-5">Book a cab in seconds with just a few clicks</p>
-          
+
           {/* Search Form */}
           <div className="row justify-content-left">
             <div className="col-md-6 col-lg-4">
@@ -26,28 +106,57 @@ function HomePage() {
                   {/* Source Dropdown */}
                   <div className="mb-3">
                     <label htmlFor="source" className="form-label text-dark">Source</label>
-                    <select id="source" className="form-select">
+                    <select id="source" className="form-select" 
+                      onChange={(e) => setSource(e.target.value)}>
                       <option value="">Select Source</option>
-                      <option value="city1">RK Nagar</option>
-                      <option value="city2">Wakad</option>
-                      <option value="city3">Hinjewadi Phase 3</option>
+                      {locations.map((location) => (
+                        <option key={location.id} value={location.source}>
+                          {location.source}
+                        </option>
+                       
+                      ))}
+                    
                     </select>
                   </div>
 
                   {/* Destination Dropdown */}
                   <div className="mb-3">
                     <label htmlFor="destination" className="form-label text-dark">Destination</label>
-                    <select id="destination" className="form-select">
+                    <select id="destination" className="form-select" 
+                      onChange={(e) => setDestination(e.target.value)}>
                       <option value="">Select Destination</option>
-                      <option value="city1">Nigdi</option>
-                      <option value="city2">Baner</option>
-                      <option value="city3">Karve Nagar</option>
+                      {locations.map((location) => (
+                        <option key={location.id} value={location.destination}>
+                          {location.destination}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                   {/* Time Selection */}
+                  <div className="mb-3">
+                    <label htmlFor="time" className="form-label text-dark">Select Time</label>
+                     <input type="time" id="time" className="form-control" onChange={(e) => setTime(e.target.value)}/>
+                   </div>
+                        {/* Time Selection */}
+                  <div className="mb-3">
+                    <label htmlFor="date" className="form-label text-dark">Select Date</label>
+                     <input type="date" id="time" className="form-control" onChange={(e)=>setDate(e.target.value)} />
+                   </div>
+
+                  {/* Vehicle Category Dropdown */}
+                  <div className="mb-3">
+                    <label htmlFor="vehicle" className="form-label text-dark">Vehicle Category</label>
+                    <select id="vehicle" className="form-select" onChange={(e)=>setCategory(e.target.value)}>
+                       <option value="">Select Vehicle</option>
+                       <option value="AUTO">Auto</option>
+                       <option value="CAT">Car</option>
+                      
                     </select>
                   </div>
 
                   {/* Search Button */}
-                  <button className="btn btn-teal w-100" onClick={onLogin}>
-                    Search
+                  <button className="btn btn-teal w-100" onClick={OnSearch}>
+                    Next
                   </button>
                 </div>
               </div>
@@ -55,105 +164,17 @@ function HomePage() {
           </div>
         </div>
       </header>
-
-      {/* Features Section */}
-      <section style={styles.featuresSection}>
-        <div className="container">
-          <h2 className="text-center mb-4" style={styles.sectionTitle}>Why Choose Us?</h2>
-          <div className="row">
-            <div className="col-md-4 text-center">
-              <div className="feature-box">
-                <h4 style={styles.featureTitle}>Reliable Rides</h4>
-                <p>Our cabs are always available when you need them, ensuring on-time arrivals and departures.</p>
-              </div>
-            </div>
-            <div className="col-md-4 text-center">
-              <div className="feature-box">
-                <h4 style={styles.featureTitle}>Affordable Pricing</h4>
-                <p>Book a ride at reasonable rates, with no hidden fees or charges.</p>
-              </div>
-            </div>
-            <div className="col-md-4 text-center">
-              <div className="feature-box">
-                <h4 style={styles.featureTitle}>24/7 Support</h4>
-                <p>Get assistance any time of the day with our dedicated customer support team.</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Pricing Section */}
-      <section style={styles.pricingSection}>
-        <div className="container">
-          <h2 className="text-center text-white mb-4">Our Pricing</h2>
-          <div className="row">
-            <div className="col-md-4 text-center">
-              <div className="pricing-box">
-                <h4 style={styles.pricingTitle}>Basic</h4>
-                <p>$10 for 10 km</p>
-              </div>
-            </div>
-            <div className="col-md-4 text-center">
-              <div className="pricing-box">
-                <h4 style={styles.pricingTitle}>Standard</h4>
-                <p>$20 for 20 km</p>
-              </div>
-            </div>
-            <div className="col-md-4 text-center">
-              <div className="pricing-box">
-                <h4 style={styles.pricingTitle}>Premium</h4>
-                <p>$30 for 30 km</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Testimonials Section */}
-      <section style={styles.testimonialsSection}>
-        <div className="container">
-          <h2 className="text-center text-white mb-4">What Our Customers Say</h2>
-          <div className="row">
-            <div className="col-md-4">
-              <div className="testimonial-box">
-                <p>"The best cab service I've used! Reliable, affordable, and always on time."</p>
-                <h5>John Doe</h5>
-              </div>
-            </div>
-            <div className="col-md-4">
-              <div className="testimonial-box">
-                <p>"A smooth and comfortable ride every time. Highly recommended!"</p>
-                <h5>Jane Smith</h5>
-              </div>
-            </div>
-            <div className="col-md-4">
-              <div className="testimonial-box">
-                <p>"Fantastic service! I can always count on them for a quick ride."</p>
-                <h5>Michael Brown</h5>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Footer Section */}
-      <footer style={styles.footer}>
-        <div className="container text-center">
-          <p className="text-white">© 2025 Cab Booking, All Rights Reserved</p>
-        </div>
-      </footer>
+      {/* Other sections... */}
     </div>
-  )
+  );
 }
 
-// Styles for the UI components
+// Styles (as before)
 const styles = {
   hero: {
     backgroundImage: 'url("/image/3644592.jpg")',
     backgroundSize: 'cover',
     backgroundPosition: 'center',
-    
     minHeight: '100vh',
     display: 'flex',
     justifyContent: 'center',
@@ -171,63 +192,10 @@ const styles = {
     borderRadius: '12px',
     boxShadow: '0 4px 12px rgba(0, 0, 0, 0.2)',
   },
-  featuresSection: {
-    padding: '50px 0',
-    backgroundColor: '#f4f4f4',
-  },
-  sectionTitle: {
-    fontSize: '32px',
-    fontWeight: 'bold',
-    color: '#008080',
-  },
-  featureTitle: {
-    fontSize: '24px',
-    color: '#008080',
-  },
-  pricingSection: {
-    padding: '50px 0',
-    backgroundColor: '#333',
-  },
-  pricingBox: {
-    backgroundColor: 'white',
-    borderRadius: '8px',
-    padding: '20px',
-    marginBottom: '20px',
-    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
-  },
-  pricingTitle: {
-    color: '#FFD700',  // Gold color for pricing titles
-    fontSize: '24px',
-    fontWeight: 'bold',
-  },
-  testimonialsSection: {
-    padding: '50px 0',
-    backgroundColor: '#f4f4f4',
-  },
-  testimonialBox: {
-    backgroundColor: 'white',
-    borderRadius: '8px',
-    padding: '20px',
-    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
-  },
-  footer: {
-    padding: '20px 0',
-    backgroundColor: '#008080',
-  }
-}
+  // Other styles...
+};
 
 export default HomePage;
-
-
-
-
-
-
-
-
-
-
-
 
 
 
