@@ -1,10 +1,7 @@
 // import { Link, useNavigate } from 'react-router-dom'
  import { toast } from 'react-toastify'
  import { BookCab } from '../Services/Booking';
- import { getLocations } from '../Services/Locations';
-
-
-
+ import { getDistance, getLocations } from '../Services/Locations';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -12,19 +9,23 @@ function HomePage() {
   const navigate = useNavigate();
   
   // State for source and destination options
-  const[locations,setLocations]=useState([]);
+ const [locations,setLocations]=useState([])
   //const[userId,setUserId]=useState('');
   const [source,setSource]=useState('');
   const[destination,setDestination]=useState('');
  const [time,setTime]=useState('');
  const[date,setDate]=useState('');
  const[category,setCategory]=useState('');
+ const[distance,setDistance]=useState('')
+ //const[price,setPrice]=useState('')
 
   const handleRedirect = () => {
       navigate("/JourneyDetails");
 
   }
 const OnSearch = async () => {
+
+   let price;
     if (source.length == 0) {
       toast.warn('please enter source')
     } else if (destination.length == 0) {
@@ -46,45 +47,90 @@ const OnSearch = async () => {
  
      else {
      // console.log(setUserId(sessionStorage.getItem('id')))
-     const userId = sessionStorage.getItem('id');
-     console.log(userId)
-        const result = await BookCab(userId,source, destination,time,date,category)   
-        if(result!=null ){
-          console.log("Checking result data:", result);
-          const{id}=result;
-          sessionStorage['bookid']=`${id}`;
-            navigate('/JourneyDetails')
-     
-       
-       
-    //   else {
-    //     toast.error("invalid Login")
-    //   }
-     }
+    // const userId = sessionStorage.getItem('id');
+    //  console.log(userId)
+    //     const result = await BookCab(userId,source, destination,time,date,category)   
+    //     if(result!=null ){
+    //       console.log("Checking result data:", result);
+    //       const{id}=result;
+    //       sessionStorage['bookid']=`${id}`;
+    //       console.log(sessionStorage.getItem('bookid'))
+    //         navigate('/JourneyDetails')
 
-    }
-  }
-  const loadLocations = async () => {
-    const result = await getLocations()
-    console.log(result)
-
-    //if (result['status'] == 'success')
+    //const userId = sessionStorage.getItem('id');
+        
+    // Store the booking details in sessionStorage
+   
+    // const source=sessionStorage.getItem(bookingDetails.source);
+    // console.log(source)
+    // Navigate to JourneyDetails page
+console.log(source)
+    const result=await getDistance(source,destination)
     if(result!=null)
-    {
-      setLocations(result)
-      console.log(locations)
-    } else {
-      toast.error("error")
+      {
+       setDistance(result)
+       console.log(result)
+      price=result*10
+        console.log(price)
+        //console.log(locations)
+        const bookingDetails = {
+   
+          source,
+          destination,
+          distance,
+          price,
+          time,
+          date,
+          category
+      };
+       
+      sessionStorage.setItem('bookingDetails', JSON.stringify(bookingDetails));
+      console.log('Stored in sessionStorage:', bookingDetails);
+      
+      
+          navigate('/JourneyDetails');
+             
+            // else {
+            //   toast.error("Already have one Booking")
+            // }
+           }
+
+
+
+        
+       else {
+        toast.error("error")
+      }
     }
+
+
+
+
+
+
   }
 
+const loadLocations=async()=>
+{
+  const result=await getLocations()
+  console.log(result)
 
+  if(result!=null)
+  {
+    setLocations(result)
 
-  useEffect(() => {
-    //Fetch source and destination data from the backend
-
-    loadLocations()
-  },[])
+  }
+  else{
+    toast.error('error')
+  }
+}
+ 
+useEffect(()=>{
+  loadLocations()
+},[])
+    
+  
+ 
    
 
  

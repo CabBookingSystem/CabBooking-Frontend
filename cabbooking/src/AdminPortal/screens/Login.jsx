@@ -32,12 +32,8 @@ function Login() {
         // get the user details
         const { id,firstName, lastName, phoneNo,role } = result
 // const { firstName, lastName, phone } = result.data.user
- 
-
-       
 //         // cache the admin details in session storage
       sessionStorage['id'] = `${id}`
-        
         sessionStorage['name'] = `${firstName} ${lastName}`
          sessionStorage['role'] = `${role}`
        // sessionStorage['token'] = token

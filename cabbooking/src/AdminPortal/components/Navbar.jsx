@@ -256,7 +256,7 @@ function Navbar() {
                 <Link className="nav-link" to="/car">View Car</Link>
               </li>
               <li className="nav-item">
-                <Link className="nav-link" to="/AboutUs">View Customers</Link>
+                <Link className="nav-link" to="/Admin/Customers">View Customers</Link>
               </li>
               <li className="nav-item">
                 <Link className="nav-link" to="/AboutUs">About Us</Link>

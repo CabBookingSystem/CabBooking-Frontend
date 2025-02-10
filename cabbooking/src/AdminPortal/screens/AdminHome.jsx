@@ -1,6 +1,9 @@
+
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar"; // Keeping your existing Navbar component
+
+
 
 function AdminHome() {
   const navigate = useNavigate();
@@ -8,7 +11,8 @@ function AdminHome() {
   return (
     <div>
       {/* Navbar */}
-      
+
+
 
       {/* Hero Section */}
       <div className="container-fluid text-center py-5 bg-dark text-white">
@@ -23,6 +27,7 @@ function AdminHome() {
           <div className="col-md-4 mb-4">
             <div className="card shadow-lg p-3 text-center border-0">
               <div className="card-body">
+
                 <h5 className="card-title"> Add Driver</h5>
                 <p className="card-text">Manage & add new cab categories.</p>
                 <button className="btn btn-primary" onClick={() => navigate("/add-driver")}>Go</button>
@@ -46,6 +51,7 @@ function AdminHome() {
                 <h5 className="card-title">Add Driver</h5>
                 <p className="card-text">Manage & add new cab categories.</p>
                 <button className="btn btn-primary" onClick={() => navigate("/add-driver")}>Go</button>
+
               </div>
             </div>
           </div>
@@ -54,9 +60,9 @@ function AdminHome() {
           <div className="col-md-4 mb-4">
             <div className="card shadow-lg p-3 text-center border-0">
               <div className="card-body">
-                <h5 className="card-title">📑 View Orders</h5>
+                <h5 className="card-title">📑 View Customers</h5>
                 <p className="card-text">Check & manage all bookings.</p>
-                <button className="btn btn-success" onClick={() => navigate("/viewOrders")}>Go</button>
+                <button className="btn btn-success" onClick={() => navigate("/Admin/Customers")}>Go</button>
               </div>
             </div>
           </div>
@@ -75,11 +81,14 @@ function AdminHome() {
 
         {/* Logout Button */}
         <div className="text-center mt-4">
+
           <button className="btn btn-danger px-4" onClick={() => navigate("/login")}>🚪 Logout</button>
+
         </div>
       </div>
     </div>
   );
 }
+
 
 export default AdminHome;
