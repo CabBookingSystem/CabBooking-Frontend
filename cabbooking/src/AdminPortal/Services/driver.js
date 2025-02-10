@@ -12,6 +12,18 @@ export async function addDriverToBackend(firstName, lastName,age, email,phoneNo,
   }
 }
 
+
+
+export const getDriverList = async () => {
+  try {
+    //  const response = await axios.get('Driver/driver-details');
+    const response = await axios.get('http://localhost:8080/Driver/driver-details');
+
+      return { status: "success", data: response.data };
+  } catch (error) {
+      return { status: "error", error: error.response?.data?.message || "Failed to fetch drivers" };
+  }
+};
 // export async function getDriverList() {
 //   try {
 //     const url = createUrl('brand/')
@@ -31,3 +43,5 @@ export async function addDriverToBackend(firstName, lastName,age, email,phoneNo,
 //     return { status: 'error', error: ex }
 //   }
 // }
+
+
