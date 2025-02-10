@@ -311,7 +311,7 @@ function Car() {
       <div className='container'>
       <h2 className="header">Cars</h2>
 
-        <Link className='btn btn-success mb-3' to='/add-car'>
+        <Link className='btn btn-success mb-3' to='/Addcar'>
           Add
         </Link>
         {cars.length == 0 && (
