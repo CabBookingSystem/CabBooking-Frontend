@@ -1,8 +1,9 @@
 import { useState } from "react";
-import { getCustomerList } from "../services/customer";
+//import { getCustomerList } from "../services/customer";
+import { getCustomerList } from "../Services/customer";
 import { toast } from "react-toastify";
 import { useEffect } from "react";
-import { DeleteCustomer } from "../services/customer";
+import { DeleteCustomer } from "../Services/customer";
 
 function Customer(){
     const [customers,setCustomer]=useState([])
@@ -55,7 +56,7 @@ function Customer(){
                         <th>dob</th>
                         <th>Phoneno</th>
                         <th>Status</th>
-                        <th>Role</th>
+                        {/* <th>Role</th> */}
                         <th>Address</th>
                     </tr>
                 </thead>
@@ -70,7 +71,7 @@ function Customer(){
                                     <td>{customer['dob']}</td>
                                     <td>{customer['phoneNo']}</td>
                                     <td>{customer.status ? "Active" : "Inactive"}</td>
-                                    <td>{customer['role']}</td>
+                                    {/* <td>{customer['role']}</td> */}
                                     <td>
   {customer.address && customer.address.adrLine1
     ? `${customer.address.adrLine2}, ${customer.address.city}, ${customer.address.state}`
@@ -84,7 +85,7 @@ function Customer(){
                       handleDelete(customer.id);
                     }}
                   >
-                    Delete
+                    Block
                   </button>
                 </td>
                                 </tr> 

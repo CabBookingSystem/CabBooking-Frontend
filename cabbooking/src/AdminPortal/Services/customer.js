@@ -1,5 +1,5 @@
 import axios from "axios"
-import { createUrl } from "../utils"
+import { createUrl } from "../../utils"
 export async function getCustomerList(){
     try{
         const url=createUrl('Admin/Customers')

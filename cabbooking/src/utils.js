@@ -1,5 +1,5 @@
-import { config } from "./services/config";
 
-export function createUrl(path){
-    return `${config.serverUrl}/${path}`
+import { config } from "./AdminPortal/Services/config"
+export function createUrl(path) {
+  return `${config.serverUrl}/${path}`
 }
