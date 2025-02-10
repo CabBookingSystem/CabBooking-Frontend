@@ -1,7 +1,11 @@
+<<<<<<< HEAD
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar"; // Keeping your existing Navbar component
 
+=======
+import Navbar from '../components/Navbar'
+>>>>>>> 974def94e411e0597bfabf89b654bc8dbdad65ed
 function AdminHome() {
   const navigate = useNavigate();
 
