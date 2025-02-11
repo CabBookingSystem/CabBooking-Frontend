@@ -291,50 +291,24 @@ import { useState } from 'react';
 import Navbar from '../components/Navbar';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import { addDriverToBackend } from '../Services/driver';
 
 function AddDriver() {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [age, setAge] = useState('');
   const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword]= useState('');
   const [phoneNo, setPhoneNo] = useState('');
   const [category, setCategory] = useState('');
-  const [carId, setCarId] = useState('');
-
+  
+ 
   // get navigate function
   const navigate = useNavigate();
 
   // Define the addDriverToBackend function
-  const addDriverToBackend = async (firstName, lastName, age, email, phoneNo, category, carId) => {
-    try {
-      const response = await fetch('http://localhost:3000/api/driver', { // Update the URL according to your backend setup
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          firstName,
-          lastName,
-          age,
-          email,
-          phoneNo,
-          category,
-          carId,
-        }),
-      });
-
-      if (!response.ok) {
-        throw new Error('Failed to add driver');
-      }
-
-      const result = await response.json();
-      return result;
-    } catch (error) {
-      console.error('Error adding driver:', error);
-      toast.error('Failed to add driver. Please try again.');
-      return { status: 'error', error: error.message };
-    }
-  };
+  
 
   const onSave = async () => {
     if (firstName.length === 0) {
@@ -345,23 +319,38 @@ function AddDriver() {
       toast.warn('Please enter age');
     } else if (email.length === 0) {
       toast.warn('Please enter email');
+    } else if (password.length === 0) {
+      toast.warn('Please enter password');
+    } else if (password != confirmPassword) {
+      toast.warn('Please enter right password');
     } else if (category.length === 0) {
       toast.warn('Please enter category');
     } else if (phoneNo.length === 0) {
       toast.warn('Please enter phone number');
     } else {
-      const result = await addDriverToBackend(firstName, lastName, age, email, phoneNo, category, carId);
+      const result = await addDriverToBackend(firstName,lastName,age,email,password,confirmPassword,category,phoneNo)
       if (result!=null) {
         toast.success('Successfully added a driver');
-        navigate(-1); // Navigate to the previous page
+        navigate('/AdminHome'); 
       } else {
         toast.error(result.error);
       }
+
+      // if (result && result.status === 'success') {
+      //   toast.success('Successfully added a driver');
+      //   navigate('/AdminHome');
+      // } else {
+      //   // Check if result is valid before trying to access its error property
+      //   const errorMessage = result?.error || 'Something went wrong';
+      //   toast.error(errorMessage);
+      // }
+
+
     }
   };
 
   const onCancel = () => {
-    navigate(-1); // Navigate to the previous page
+    navigate('/AdminHome'); // Navigate to the previous page
   };
 
   return (
@@ -394,6 +383,23 @@ function AddDriver() {
             className="form-control"
           />
         </div>
+        <div className="mb-3">
+          <label htmlFor="">Password</label>
+          <input
+            onChange={(e) => setPassword(e.target.value)}
+            type="password"
+            className="form-control"
+          />
+        </div>
+
+        <div className="mb-3">
+          <label htmlFor="">ConfirmPassword</label>
+          <input
+            onChange={(e) => setConfirmPassword(e.target.value)}
+            type="password"
+            className="form-control"
+          />
+        </div>
 
         <div className="mb-3">
           <label htmlFor="">Email</label>
@@ -408,7 +414,7 @@ function AddDriver() {
           <label htmlFor="">Phone Number</label>
           <input
             onChange={(e) => setPhoneNo(e.target.value)}
-            type="number"
+            type="string"
             className="form-control"
           />
         </div>

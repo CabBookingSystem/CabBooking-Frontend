@@ -1,7 +1,10 @@
 import { Route, Routes } from 'react-router-dom'
+
 import GetCustomer from './AdminPortal/screens/GetCustomer'
+
 import Car from './AdminPortal/screens/Car'
 import AddDriver from './AdminPortal/screens/AddDriver'
+
 import Login from './AdminPortal/screens/Login'
 import Register from './AdminPortal/screens/Register'
 import Home from './UserPortal/screens/Home'
@@ -15,7 +18,9 @@ import DriverHome from './DriverPortal/Screens/DriverHome'
 import AdminHome from './AdminPortal/screens/AdminHome'
 import BookingList from './DriverPortal/Screens/BookingList'
 import Confirm from './UserPortal/screens/Confirm'
+
 import GetDriver from './DriverPortal/Screens/GetDriver'
+
 function App() {
   return (
     <div className='container-fluid'>
@@ -28,10 +33,17 @@ function App() {
         <Route path='details' element={<details/>} />
         <Route path='Admin/Customers' element={<GetCustomer/>} />
 
+
         <Route path='car' element={<Car/>} />
         <Route path='add-driver' element={<AddDriver/>} />
        {/* <Route path='Driver/driver-details' element={<getDriver/>} /> */}
        <Route path='/drivers' element={<GetDriver />} />
+
+        <Route path='Driver/driver-details' element={<GetDriver/>} />
+
+        <Route path='car' element={<Car/>} />
+        <Route path='add-driver' element={<AddDriver/>} />
+e
 
         <Route path='Addcar' element={<AddCar/>}/>
         <Route path='AboutUs' element={<AboutUs/>}/>
@@ -41,6 +53,7 @@ function App() {
         <Route path='BookingList' element={<BookingList/>}/>
 
         <Route path='Confirm' element={<Confirm />} />
+
 
       </Routes>
 

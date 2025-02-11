@@ -14,7 +14,7 @@ export async function signup(firstName, lastName,dob, email, password, phoneNo, 
             role,
           }
           
-          const url = createUrl('/Customers')
+          const url = createUrl('Driver/driver-details')
           const response = await axios.post(url, body)
           return response.data
         }
