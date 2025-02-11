@@ -24,6 +24,6 @@ export async function getBookingList(driverId) {
       const response = await axios.put(url)
       return response.data
     } catch (ex) {
-      return { status: 'error', error: ex }
+      return null
     }
   }

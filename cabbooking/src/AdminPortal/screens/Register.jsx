@@ -12,8 +12,8 @@ function Register() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
-  const [phone, setPhone] = useState('')
-  const [userAddress, setUserAddress] = useState('')
+  const [phoneNo, setPhoneNo] = useState('')
+  const [userAddress, setUserAddress] = useState([])
 
   //user's-Address details
   const [adrLine1, setAdrLine1] = useState('');
@@ -32,11 +32,11 @@ function Register() {
       toast.warn('Please enter last name')
     } else if (email.length == 0) {
       toast.warn('Please enter email')
-    } else if (phone.length == 0) {
+    } else if (phoneNo.length == 0) {
       toast.warn('Please enter phone number')
-    } else if (userAddress.length === 0) {
-      toast.warn('Please enter address'); 
-    } else if (password.length == 0) {
+    } 
+    
+    else if (password.length == 0) {
       toast.warn('Please enter password')
     } else if (confirmPassword.length == 0) {
       toast.warn('Please confirm password')
@@ -48,13 +48,14 @@ function Register() {
 
    else {
       const address = { adrLine1, adrLine2, city, state, pinCode };
-      const result = await signup(firstName, lastName, email, password, phone, userAddress)
-      if (result['status'] == 'success') {
+      console.log("herreee")
+      const result = await signup(firstName, lastName, email, password, phoneNo, address)
+      if (result !=null) {
         toast.success('Successfully registered a new admin')
         // go back
-        navigate(-1)
+        navigate('/login')
       } else {
-        toast.error(result.error|| 'Registeration failed')
+        toast.error( 'Registeration failed')
       }
     }
   };
@@ -70,7 +71,7 @@ return (
         <div className="col-lg-8 col-md-10 col-sm-12">
           <div className="card shadow-lg border-0">
             <div className="card-body">
-              <h2 className="text-center mb-4">Registeration</h2>
+              <h2 className="text-center mb-4">Registretion</h2>
               <form>
                 {/* Name Section */}
                 <div className="row">
@@ -119,7 +120,7 @@ return (
                       Phone Number
                     </label>
                     <input
-                      onChange={(e) => setPhone(e.target.value)}
+                      onChange={(e) => setPhoneNo(e.target.value)}
                       type="tel"
                       id="phone"
                       className="form-control"
@@ -226,7 +227,7 @@ return (
 
                 {/* Submit Button */}
                 <div className="text-center">
-                  <button onClick={onSignup} type="submit" className="btn btn-primary px-5 py-2">
+                  <button onClick={onSignup}  className="btn btn-primary px-5 py-2">
                     Signup
                   </button>
                   {/* <button onClick={onSignup} type="submit" className="btn btn-primary px-5 py-2">

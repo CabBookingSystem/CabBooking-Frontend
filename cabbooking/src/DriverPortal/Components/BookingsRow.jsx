@@ -20,7 +20,7 @@ function BookingsRow({id,source,destination,date,time,firstName,onAccept}){
           
         
         } else {
-          toast.error("somthing went Wrong")
+          toast.error("At a Time Only One Request can be accepted")
         }
 
     }
