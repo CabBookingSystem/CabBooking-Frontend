@@ -1,198 +1,244 @@
 // import { Link, useNavigate } from 'react-router-dom'
- import { toast } from 'react-toastify'
- import { BookCab } from '../Services/Booking';
- import { getLocations } from '../Services/Locations';
-
-
-
+import { toast } from 'react-toastify'
+import { BookCab } from '../Services/Booking';
+import { getDistance, getLocations } from '../Services/Locations';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 function HomePage() {
-  const navigate = useNavigate();
-  
-  // State for source and destination options
-  const[locations,setLocations]=useState([]);
-  //const[userId,setUserId]=useState('');
-  const [source,setSource]=useState('');
-  const[destination,setDestination]=useState('');
- const [time,setTime]=useState('');
- const[date,setDate]=useState('');
- const[category,setCategory]=useState('');
+ const navigate = useNavigate();
+ 
+ // State for source and destination options
+const [locations,setLocations]=useState([])
+ //const[userId,setUserId]=useState('');
+ const [source,setSource]=useState('');
+ const[destination,setDestination]=useState('');
+const [time,setTime]=useState('');
+const[date,setDate]=useState('');
+const[category,setCategory]=useState('');
+const[distance,setDistance]=useState('')
+//const[price,setPrice]=useState('')
 
-  const handleRedirect = () => {
-      navigate("/JourneyDetails");
+ const handleRedirect = () => {
+     navigate("/JourneyDetails");
 
-  }
+ }
 const OnSearch = async () => {
-    if (source.length == 0) {
-      toast.warn('please enter source')
-    } else if (destination.length == 0) {
-      toast.warn('please enter time')
-      
-    }
-    else if(date.length==0)
-    {
-      toast.warn('please enter date')
-    }
-    else if(category.length==0)
-      {
-        toast.warn('please select vehical Category ')
-      }
-    else if(source==destination)
-    {
-      toast.warn('source and Destination Cannot be same ')
-    }
- 
-     else {
-     // console.log(setUserId(sessionStorage.getItem('id')))
-     const userId = sessionStorage.getItem('id');
-     console.log(userId)
-        const result = await BookCab(userId,source, destination,time,date,category)   
-        if(result!=null ){
-          console.log("Checking result data:", result);
-          const{id}=result;
-          sessionStorage['bookid']=`${id}`;
-            navigate('/JourneyDetails')
+
+  let price;
+   if (source.length == 0) {
+     toast.warn('please enter source')
+   } else if (destination.length == 0) {
+     toast.warn('please enter time')
      
-       
-       
-    //   else {
-    //     toast.error("invalid Login")
-    //   }
+   }
+   else if(date.length==0)
+   {
+     toast.warn('please enter date')
+   }
+   else if(category.length==0)
+     {
+       toast.warn('please select vehical Category ')
      }
+   else if(source==destination)
+   {
+     toast.warn('source and Destination Cannot be same ')
+   }
 
-    }
-  }
-  const loadLocations = async () => {
-    const result = await getLocations()
-    console.log(result)
+    else {
+    // console.log(setUserId(sessionStorage.getItem('id')))
+   // const userId = sessionStorage.getItem('id');
+   //  console.log(userId)
+   //     const result = await BookCab(userId,source, destination,time,date,category)   
+   //     if(result!=null ){
+   //       console.log("Checking result data:", result);
+   //       const{id}=result;
+   //       sessionStorage['bookid']=${id};
+   //       console.log(sessionStorage.getItem('bookid'))
+   //         navigate('/JourneyDetails')
 
-    //if (result['status'] == 'success')
-    if(result!=null)
-    {
-      setLocations(result)
-      console.log(locations)
-    } else {
-      toast.error("error")
-    }
-  }
+   //const userId = sessionStorage.getItem('id');
+       
+   // Store the booking details in sessionStorage
+  
+   // const source=sessionStorage.getItem(bookingDetails.source);
+   // console.log(source)
+   // Navigate to JourneyDetails page
+console.log(source)
+   const result=await getDistance(source,destination)
+   if(result!=null)
+     {
+      setDistance(result)
+      console.log(result)
+     price=result*10
+       console.log(price)
+       //console.log(locations)
+       const bookingDetails = {
+  
+         source,
+         destination,
+         distance,
+         price,
+         time,
+         date,
+         category
+     };
+      
+     sessionStorage.setItem('bookingDetails', JSON.stringify(bookingDetails));
+     console.log('Stored in sessionStorage:', bookingDetails);
+     
+     
+         navigate('/JourneyDetails');
+            
+           // else {
+           //   toast.error("Already have one Booking")
+           // }
+          }
 
 
 
-  useEffect(() => {
-    //Fetch source and destination data from the backend
+       
+      else {
+       toast.error("error")
+     }
+   }
 
-    loadLocations()
-  },[])
+
+
+
+
+
+ }
+
+const loadLocations=async()=>
+{
+ const result=await getLocations()
+ console.log(result)
+
+ if(result!=null)
+ {
+   setLocations(result)
+
+ }
+ else{
+   toast.error('error')
+ }
+}
+
+useEffect(()=>{
+ loadLocations()
+},[])
    
-
  
+
   
 
-  return (
-    <div>
-      {/* Hero Section */}
-      <header style={styles.hero}>
-        <div className="container py-5" style={{ backgroundImage: "/image/car3.jpg" }}>
-          <h1 className="text-left text-white mb-4" style={styles.heroTitle}>Cab Booking Made Easy</h1>
-          <p className="text-left text-white mb-5">Book a cab in seconds with just a few clicks</p>
 
-          {/* Search Form */}
-          <div className="row justify-content-left">
-            <div className="col-md-6 col-lg-4">
-              <div className="card p-4 shadow-lg" style={styles.card}>
-                <div className="card-body">
-                  {/* Source Dropdown */}
-                  <div className="mb-3">
-                    <label htmlFor="source" className="form-label text-dark">Source</label>
-                    <select id="source" className="form-select" 
-                      onChange={(e) => setSource(e.target.value)}>
-                      <option value="">Select Source</option>
-                      {locations.map((location) => (
-                        <option key={location.id} value={location.source}>
-                          {location.source}
-                        </option>
-                       
-                      ))}
-                    
-                    </select>
-                  </div>
+ 
 
-                  {/* Destination Dropdown */}
-                  <div className="mb-3">
-                    <label htmlFor="destination" className="form-label text-dark">Destination</label>
-                    <select id="destination" className="form-select" 
-                      onChange={(e) => setDestination(e.target.value)}>
-                      <option value="">Select Destination</option>
-                      {locations.map((location) => (
-                        <option key={location.id} value={location.destination}>
-                          {location.destination}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                   {/* Time Selection */}
-                  <div className="mb-3">
-                    <label htmlFor="time" className="form-label text-dark">Select Time</label>
-                     <input type="time" id="time" className="form-control" onChange={(e) => setTime(e.target.value)}/>
-                   </div>
-                        {/* Time Selection */}
-                  <div className="mb-3">
-                    <label htmlFor="date" className="form-label text-dark">Select Date</label>
-                     <input type="date" id="time" className="form-control" onChange={(e)=>setDate(e.target.value)} />
-                   </div>
+ return (
+   <div>
+     {/* Hero Section */}
+     <header style={styles.hero}>
+       <div className="container py-5" style={{ backgroundImage: "/image/car3.jpg" }}>
+         <h1 className="text-left text-white mb-4" style={styles.heroTitle}>Cab Booking Made Easy</h1>
+         <p className="text-left text-white mb-5">Book a cab in seconds with just a few clicks</p>
 
-                  {/* Vehicle Category Dropdown */}
-                  <div className="mb-3">
-                    <label htmlFor="vehicle" className="form-label text-dark">Vehicle Category</label>
-                    <select id="vehicle" className="form-select" onChange={(e)=>setCategory(e.target.value)}>
-                       <option value="">Select Vehicle</option>
-                       <option value="AUTO">Auto</option>
-                       <option value="CAT">Car</option>
+         {/* Search Form */}
+         <div className="row justify-content-left">
+           <div className="col-md-6 col-lg-4">
+             <div className="card p-4 shadow-lg" style={styles.card}>
+               <div className="card-body">
+                 {/* Source Dropdown */}
+                 <div className="mb-3">
+                   <label htmlFor="source" className="form-label text-dark">Source</label>
+                   <select id="source" className="form-select" 
+                     onChange={(e) => setSource(e.target.value)}>
+                     <option value="">Select Source</option>
+                     {locations.map((location) => (
+                       <option key={location.id} value={location.source}>
+                         {location.source}
+                       </option>
                       
-                    </select>
+                     ))}
+                   
+                   </select>
+                 </div>
+
+                 {/* Destination Dropdown */}
+                 <div className="mb-3">
+                   <label htmlFor="destination" className="form-label text-dark">Destination</label>
+                   <select id="destination" className="form-select" 
+                     onChange={(e) => setDestination(e.target.value)}>
+                     <option value="">Select Destination</option>
+                     {locations.map((location) => (
+                       <option key={location.id} value={location.destination}>
+                         {location.destination}
+                       </option>
+                     ))}
+                   </select>
+                 </div>
+                  {/* Time Selection */}
+                 <div className="mb-3">
+                   <label htmlFor="time" className="form-label text-dark">Select Time</label>
+                    <input type="time" id="time" className="form-control" onChange={(e) => setTime(e.target.value)}/>
+                  </div>
+                       {/* Time Selection */}
+                 <div className="mb-3">
+                   <label htmlFor="date" className="form-label text-dark">Select Date</label>
+                    <input type="date" id="time" className="form-control" onChange={(e)=>setDate(e.target.value)} />
                   </div>
 
-                  {/* Search Button */}
-                  <button className="btn btn-teal w-100" onClick={OnSearch}>
-                    Next
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </header>
-      {/* Other sections... */}
-    </div>
-  );
+                 {/* Vehicle Category Dropdown */}
+                 <div className="mb-3">
+                   <label htmlFor="vehicle" className="form-label text-dark">Vehicle Category</label>
+                   <select id="vehicle" className="form-select" onChange={(e)=>setCategory(e.target.value)}>
+                      <option value="">Select Vehicle</option>
+                      <option value="AUTO">Auto</option>
+                      <option value="CAR">Car</option>
+                     
+                   </select>
+                 </div>
+
+                 {/* Search Button */}
+                 <button className="btn btn-teal w-100" onClick={OnSearch}>
+                   Next
+                 </button>
+               </div>
+             </div>
+           </div>
+         </div>
+       </div>
+     </header>
+     {/* Other sections... */}
+   </div>
+ );
 }
 
 // Styles (as before)
 const styles = {
-  hero: {
-    backgroundImage: 'url("/image/3644592.jpg")',
-    backgroundSize: 'cover',
-    backgroundPosition: 'center',
-    minHeight: '100vh',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    flexDirection: 'column',
-    textAlign: 'left',
-  },
-  heroTitle: {
-    fontSize: '48px',
-    fontWeight: 'bold',
-    textShadow: '2px 2px 5px rgba(0, 0, 0, 0.7)',
-  },
-  card: {
-    backgroundColor: 'rgba(255, 255, 255, 0.85)',
-    borderRadius: '12px',
-    boxShadow: '0 4px 12px rgba(0, 0, 0, 0.2)',
-  },
-  // Other styles...
+ hero: {
+   backgroundImage: 'url("/image/3644592.jpg")',
+   backgroundSize: 'cover',
+   backgroundPosition: 'center',
+   minHeight: '100vh',
+   display: 'flex',
+   justifyContent: 'center',
+   alignItems: 'center',
+   flexDirection: 'column',
+   textAlign: 'left',
+ },
+ heroTitle: {
+   fontSize: '48px',
+   fontWeight: 'bold',
+   textShadow: '2px 2px 5px rgba(0, 0, 0, 0.7)',
+ },
+ card: {
+   backgroundColor: 'rgba(255, 255, 255, 0.85)',
+   borderRadius: '12px',
+   boxShadow: '0 4px 12px rgba(0, 0, 0, 0.2)',
+ },
+ // Other styles...
 };
 
 export default HomePage;
@@ -465,7 +511,7 @@ export default HomePage;
 //           <Menu size={24} className="cursor-pointer" />
 //         </div>
 //       </div>
-      
+     
 //       {/* Booking Section */}
 //       <div className="bg-white text-black p-6 rounded-md w-3/4 mx-auto mt-4 shadow-lg">
 //         <div className="flex border-b pb-2 space-x-4">
@@ -493,7 +539,7 @@ export default HomePage;
 //           SEARCH <span className="ml-2 text-green-400">OLA CABS</span>
 //         </Button>
 //       </div>
-      
+     
 //       {/* Advertisement */}
 //       <div className="bg-green-100 text-black p-6 mt-6 flex justify-between items-center w-3/4 mx-auto rounded-md shadow-lg">
 //         <div>

@@ -14,6 +14,7 @@ function Register() {
   const [confirmPassword, setConfirmPassword] = useState('')
   const [phoneNo, setPhoneNo] = useState('')
   const [userAddress, setUserAddress] = useState([])
+  const[dob,setDate]=useState([])
 
   //user's-Address details
   const [adrLine1, setAdrLine1] = useState('');
@@ -49,7 +50,7 @@ function Register() {
    else {
       const address = { adrLine1, adrLine2, city, state, pinCode };
       console.log("herreee")
-      const result = await signup(firstName, lastName, email, password, phoneNo, address)
+      const result = await signup(firstName, lastName, email, password, phoneNo, address,dob)
       if (result !=null) {
         toast.success('Successfully registered a new admin')
         // go back
@@ -99,7 +100,28 @@ return (
                       placeholder="Enter your last name"
                     />
                   </div>
+                  <div className="col-md-6 mb-3">
+                    <label htmlFor="date" className="form-label">
+                      date of Birth
+                    </label>
+                    <input
+                     onChange={(e)=>setDate(e.target.value)}
+                      type="date"
+                      id="date"
+                      className="form-control"
+                      placeholder="Enter your last name"
+                    />
+                  </div>
                 </div>
+                
+
+               
+
+                {/* <div className="mb-3">
+                   <label htmlFor="date" className="form-label text-dark">Select Date</label>
+                    <input type="date" id="time" className="form-control" onChange={(e)=>setDate(e.target.value)} />
+                  </div> */}
+
 
                 {/* Contact Section */}
                 <div className="row">

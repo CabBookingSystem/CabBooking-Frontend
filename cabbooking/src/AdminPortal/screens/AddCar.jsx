@@ -42,7 +42,7 @@ function AddCar() {
 
     return (
         <div>
-          <Navbar />
+         
           <div className='container'>
             <h2 className='header'>Add New Car</h2>
             <div className='mb-3'>

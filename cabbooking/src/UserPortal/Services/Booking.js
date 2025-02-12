@@ -1,14 +1,14 @@
 import axios from 'axios'
 import { createUrl } from '../../utils'
 
-export async function BookCab(userId,source, destination,time,date,category) {
+export async function BookCab(userId,source, destination,time,date,price,category) {
     try {
-      const body = { userId,source, destination,time,date,category}
+      const body = { userId,source, destination,time,date,price,category}
       const url = createUrl('customer/bookCar')
       const response = await axios.post(url, body)
       return response.data
     } catch (ex) {
-      return { status: 'error', error: ex }
+      return null;
     }
   }
 
